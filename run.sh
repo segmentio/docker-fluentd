@@ -11,12 +11,13 @@ cat > /etc/fluent/fluent.conf <<EOF
 </source>
 <match docker.var.lib.docker.containers.*.*.log>
   type record_reformer
-  container_id ${tag_parts[5]}
+  container_id \${tag_parts[5]}
   tenant $OS_TENANT_NAME
   tag docker.all
 </match>
 <match docker.all>
   type forward
+  heartbeat_type tcp
   <server>
     name $FLUENTD_HOST
     host $FLUENTD_HOST
