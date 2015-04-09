@@ -3,19 +3,19 @@ mkdir /etc/fluent
 cat > /etc/fluent/fluent.conf <<EOF
 <source>
   type tail
+  format none
+  time_key time
   path /var/lib/docker/containers/*/*-json.log
-  pos_file /var/log/fluentd-docker.pos
+  pos_file /var/lib/docker/containers/containers.log.pos
   time_format %Y-%m-%dT%H:%M:%S
-  tag docker.*
-  format json
+  tag docker.log.*
 </source>
-<match docker.var.lib.docker.containers.*.*.log>
-  type record_reformer
-  container_id \${tag_parts[5]}
-  tenant $OS_TENANT_NAME
-  tag docker.all
+
+<match docker.log.**>
+  type docker_tag_resolver
 </match>
-<match docker.all>
+
+<match docker.container.**>
   type forward
   heartbeat_type tcp
   <server>
