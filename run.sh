@@ -15,14 +15,13 @@ cat > /etc/fluent/fluent.conf <<EOF
 
 <match docker.container.**>
   type record_reformer
-  image \${tag_parts[2]}
-  name \${tag_parts[3]}
-  id \${tag_parts[4]}
+  name \${tag_parts[-2]}
+  id \${tag_parts[-1]}
   tenant $OS_TENANT_NAME
-  tag docker
+  tag ${tag_suffix[1]}
 </match>
 
-<match docker>
+<match container.**>
   type forward
   heartbeat_type tcp
   <server>
