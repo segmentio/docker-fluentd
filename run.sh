@@ -24,4 +24,4 @@ cat > /etc/fluent/fluent.conf <<EOF
   </server>
 </match>
 EOF
-fluentd -c /etc/fluent/fluent.conf
+fluentd -c /etc/fluent/fluent.conf || exit 0
