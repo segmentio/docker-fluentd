@@ -12,10 +12,19 @@ cat > /etc/fluent/fluent.conf <<EOF
 </source>
 
 <match docker.log.**>
-  type docker_tag_resolver
+  type docker_tag_resolver  
 </match>
 
 <match docker.container.**>
+  type record_reformer
+  image \${tag_parts[2]}
+  name \${tag_parts[3]}
+  id \${tag_parts[4]}
+  tenant $OS_TENANT_NAME
+  tag docker.*
+</match>
+
+<match docker.**>
   type forward
   heartbeat_type tcp
   <server>
