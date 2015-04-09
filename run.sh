@@ -19,9 +19,8 @@ cat > /etc/fluent/fluent.conf <<EOF
   type forward
   heartbeat_type tcp
   <server>
-    name $FLUENTD_HOST
     host $FLUENTD_HOST
   </server>
 </match>
 EOF
-fluentd -c /etc/fluent/fluent.conf || exit 0
+exec fluentd -c /etc/fluent/fluent.conf
