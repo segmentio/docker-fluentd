@@ -18,7 +18,7 @@ cat > /etc/fluent/fluent.conf <<EOF
   name \${tag_parts[-2]}
   id \${tag_parts[-1]}
   tenant $OS_TENANT_NAME
-  tag ${tag_suffix[1]}
+  tag \${tag_suffix[1]}
 </match>
 
 <match container.**>
@@ -28,5 +28,11 @@ cat > /etc/fluent/fluent.conf <<EOF
     host $FLUENTD_HOST
   </server>
 </match>
+
+<match **>
+  @type stdout
+  @id stdout_output
+</match>
+
 EOF
 exec fluentd -c /etc/fluent/fluent.conf
