@@ -23,7 +23,6 @@ cat > /etc/fluent/fluent.conf <<EOF
 
 <match container.**>
   type forward
-  heartbeat_type tcp
   <server>
     host $FLUENTD_HOST
   </server>
