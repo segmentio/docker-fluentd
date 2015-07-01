@@ -2,6 +2,14 @@
 mkdir /etc/fluent
 cat > /etc/fluent/fluent.conf <<EOF
 <source>
+  type exec
+  command logrotate -v /etc/logrotate.d/docker-container
+  keys k1
+  tag_key k1
+  run_interval 10m
+</source>
+
+<source>
   type tail
   format none
   path /var/lib/docker/containers/*/*-json.log
@@ -22,6 +30,7 @@ cat > /etc/fluent/fluent.conf <<EOF
 </match>
 
 <match container.**>
+  buffer_type memory
   type forward
   heartbeat_type tcp
   <server>
