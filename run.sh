@@ -31,6 +31,7 @@ cat > /etc/fluent/fluent.conf <<EOF
 
 <match container.**>
   buffer_type memory
+  flush_interval 10s
   type forward
   heartbeat_type tcp
   <server>
