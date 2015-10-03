@@ -11,21 +11,22 @@ cat > /etc/fluent/fluent.conf <<EOF
 
 <source>
   type tail
-  format none
   path /var/lib/docker/containers/*/*-json.log
-  pos_file /var/lib/docker/containers/containers.log.pos
+  pos_file /var/log/fluentd-docker.pos
+  time_format %Y-%m-%dT%H:%M:%S
   tag docker.log.*
+  format json
 </source>
 
 <match docker.log.**>
-  type docker_tag_resolver  
+  type docker_tag_resolver
 </match>
 
 <match docker.container.**>
   type record_reformer
-  name \${tag_parts[-2]}
-  id \${tag_parts[-1]}
-  tenant $OS_TENANT_NAME
+  container_name \${tag_parts[-2]}
+  container_id \${tag_parts[-1]}
+  hostname $OS_TENANT_NAME
   tag \${tag_suffix[1]}
 </match>
 
