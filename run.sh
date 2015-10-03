@@ -35,7 +35,7 @@ cat > /etc/fluent/fluent.conf <<EOF
   heartbeat_type tcp
   <server>
     host $FLUENTD_HOST
-    port 24225
+    port 24224
   </server>
 </match>
 
